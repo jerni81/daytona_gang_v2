@@ -1,9 +1,10 @@
 import React from 'react';
+import Landing from "./components/Landing"
 
 function App() {
   return (
     <div className="App">
-      <h1>DATYONAAAAAA!!!!!</h1>
+      <Landing />
     </div>
   );
 }
