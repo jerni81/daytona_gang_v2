@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
+import { Typography, Paper, Avatar, Button } from "@material-ui/core";
 
 function Landing() {
   return (
     <div className="Landing">
-      <h1>DATYONAAAAAA!!!!!</h1>
+    DATYONAAAAAA!!!!!
     </div>
   );
 }
 
-export default App;
+export default Landing;

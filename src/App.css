@@ -1,0 +1,10 @@
+.App {
+   height: 100vh; 
+   background-image: url(./images/daytona_frontstretch.jpg); 
+   background-size: cover;
+}
+
+#firebaseui_container {
+    height: 100vh;
+    vertical-align: middle;
+}
