@@ -4,7 +4,13 @@
    background-size: cover;
 }
 
+#title {
+    text-align: center;
+    font-size: 40pt;
+    font-family: 'Faster One', cursive;
+    padding-top: 5vh;
+}
+
 #firebaseui_container {
-    height: 100vh;
-    vertical-align: middle;
+    margin-top: 10vh;
 }

@@ -9,11 +9,10 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 function App() {
   return (
     <div className="App">
+      <div id="title">Daytona Gang</div>
       <Router>
         <Switch>
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/signin" component={SignIn} />
-          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/" component={SignIn} />
           <Route exact path="/dashboard" component={Dashboard} />
         </Switch>
       </Router>
