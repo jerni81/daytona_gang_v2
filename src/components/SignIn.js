@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase";
 
@@ -10,31 +10,10 @@ const uiConfig = {
   signInSuccessUrl: "/dashboard",
   // We will display Email as auth providers.
   signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID],
-  callbacks: {
-    // Avoid redirects after sign-in.
-    signInSuccessWithAuthResult: () => false
-  }
 };
 
-function SignIn() {
-  const [signedIn, setSignedIn] = useState(false);
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    firebase.unregisterAuthObserver = firebase
-      .auth()
-      .onAuthStateChanged(
-        (user) => setUser( user ),
-        setSignedIn(!signedIn)
-      );
-
-    return function cleanup() {
-      firebase.unregisterAuthObserver();
-    };
-  }, []);
-
-  console.log(signedIn);
-  console.log(user);
+function SignIn({ user }) {
+  console.log("sign in user", user);
 
   return (
     <div className="SignIn">

@@ -1,16 +1,35 @@
 .App {
-   height: 100vh; 
-   background-image: url(./images/daytona_frontstretch.jpg); 
-   background-size: cover;
+  height: 100vh;
+  background-image: url(./images/daytona_frontstretch.jpg);
+  background-size: cover;
+  display: inline-block;
 }
 
 #title {
-    text-align: center;
-    font-size: 40pt;
-    font-family: 'Faster One', cursive;
-    padding-top: 5vh;
+  text-align: center;
+  font-size: 40pt;
+  font-family: "Faster One", cursive;
+  padding: 4vh;
 }
 
 #firebaseui_container {
-    margin-top: 10vh;
+  margin-top: 10vh;
+}
+
+.Dashboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Schedule {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.88);
+  color: aliceblue;
+  margin: 5%;
+  overflow-x: scroll;
 }
