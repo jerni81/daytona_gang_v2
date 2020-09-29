@@ -20,10 +20,10 @@ function Schedule({ schedule }) {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
-                  timeZone: "est",
                 })}
               </div>
             ))}
+            <br />
           </div>
         ))}
       </div>

@@ -1,8 +1,11 @@
 .App {
   height: 100vh;
+  width: 100vw;
   background-image: url(./images/daytona_frontstretch.jpg);
   background-size: cover;
   display: inline-block;
+  overflow: scroll;
+  background-position: fixed;
 }
 
 #title {
@@ -10,6 +13,12 @@
   font-size: 40pt;
   font-family: "Faster One", cursive;
   padding: 4vh;
+}
+
+#userTitle {
+  text-align: center;
+  font-size: 40pt;
+  font-family: "Faster One", cursive;
 }
 
 #firebaseui_container {
@@ -26,10 +35,10 @@
 .Schedule {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center;
+  align-items: center; */
   background-color: rgba(0, 0, 0, 0.88);
   color: aliceblue;
-  margin: 5%;
-  overflow-x: scroll;
+  height: 86vh;
+  overflow: scroll;
 }

@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className="App">
-      <div id="title">Daytona Gang</div>
+      <div id={user ? "userTitle" : "title"}>Daytona Gang</div>
       <Router>
         <Switch>
           <Route
