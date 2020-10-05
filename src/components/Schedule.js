@@ -3,12 +3,11 @@ import { useHistory } from "react-router-dom";
 
 function Schedule({ schedule }) {
   let history = useHistory();
-  console.log("scedule page", schedule.events);
 
   if (schedule.events) {
     return (
       <div className="Schedule">
-        <button onClick={() => history.push("/dashboard")}>Dashboard</button>
+        {/* <button onClick={() => history.push("/dashboard")}>Dashboard</button> */}
         {schedule.events.map((event) => (
           <div key={event.id}>
             <b>{event.name}</b>
@@ -29,7 +28,23 @@ function Schedule({ schedule }) {
       </div>
     );
   }
-  return <div>not here</div>;
+  return (
+    <div className="Page">
+      <h1>Schedule</h1>
+      <h1>Schedule</h1>
+      <h1>Schedule</h1>
+      <h1>Schedule</h1>
+      <h1>Schedule</h1>
+      <h1>Schedule</h1>
+      <h1>Schedule</h1>
+      <h1>Schedule</h1>
+      <h1>Schedule</h1>
+      <h1>Schedule</h1>
+      <h1>Schedule</h1>
+      <h1>Schedule</h1>
+      this
+    </div>
+  );
 }
 
 export default Schedule;

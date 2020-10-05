@@ -3,9 +3,8 @@
   width: 100vw;
   background-image: url(./images/daytona_frontstretch.jpg);
   background-size: cover;
-  display: inline-block;
-  overflow: scroll;
-  background-position: fixed;
+  overflow: hidden;
+  position: fixed;
 }
 
 #title {
@@ -28,17 +27,15 @@
 .Dashboard {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
-.Schedule {
+.Page {
   display: flex;
   flex-direction: column;
-  /* justify-content: center;
-  align-items: center; */
   background-color: rgba(0, 0, 0, 0.88);
   color: aliceblue;
-  height: 86vh;
+  width: 100vw;
   overflow: scroll;
+  height: 72vh;
 }
