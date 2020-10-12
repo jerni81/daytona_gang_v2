@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import firebase from "firebase";
-import axios from 'axios';
+import axios from "axios";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import Draft from "./Draft";
@@ -36,11 +36,9 @@ function Dashboard({ user }) {
   //   fetchData();
   //   console.log('datafetched');
   // }, []);
- 
 
- 
-  if(schedule.events){
-  console.log(schedule.events.length);
+  if (schedule.events) {
+    console.log(schedule.events.length);
   }
 
   if (user) {

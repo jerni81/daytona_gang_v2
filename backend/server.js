@@ -1,10 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const MongoClient = require('mongodb').MongoClient
-const bodyParser = require("body-parser")
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const MongoClient = require("mongodb").MongoClient;
+const bodyParser = require("body-parser");
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -30,20 +30,17 @@ const uri = process.env.ATLAS_URI;
 //   })
 //   .catch(console.error)
 
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true }
-);
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
 const connection = mongoose.connection;
-connection.once('open', () => {
+connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
-})
+});
 
+const eventsRouter = require("./routes/events");
 
-
-const eventsRouter = require('./routes/events');
-
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use('/events', eventsRouter);
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/events", eventsRouter);
 
 app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
+  console.log(`Server is running on port: ${port}`);
 });
