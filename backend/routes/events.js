@@ -1,20 +1,25 @@
 const router = require('express').Router();
-let Event = require('../models/events.model');
+let SingleEvent = require('../models/events.model');
 
 router.route('/').get((req, res) => {
-  Event.find()
+  SingleEvent.find()
     .then(events => res.json(events))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/add').post((req, res) => {
-  const event = req.body.event;
+  const singleEvent = req.body.singleEvent
 
-  const newEvent = new Event({event});
+  const newSingleEvent = new SingleEvent({singleEvent});
 
-  newEvent.save()
+  newSingleEvent.save()
     .then(() => res.json('Event added!'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
+
+// router.post('/seed', (req, res)=>{
+//     res.send(req.body)
+//     console.log('data: ', req.body);
+//  });
 
 module.exports = router;
