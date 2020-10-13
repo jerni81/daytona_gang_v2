@@ -7,17 +7,6 @@ router.route("/").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/add").post((req, res) => {
-  const singleEvent = req.body.singleEvent;
-
-  const newSingleEvent = new SingleEvent({ singleEvent });
-
-  newSingleEvent
-    .save()
-    .then(() => res.json("Event added!"))
-    .catch((err) => res.status(400).json("Error: " + err));
-});
-
 // router.post('/seed', (req, res)=>{
 //     res.send(req.body)
 //     console.log('data: ', req.body);

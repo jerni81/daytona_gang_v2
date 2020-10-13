@@ -37,9 +37,11 @@ connection.once("open", () => {
 });
 
 const eventsRouter = require("./routes/events");
+const usersRouter = require("./routes/users");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/events", eventsRouter);
+app.use("/users", usersRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

@@ -17,7 +17,7 @@ function App() {
       <div id={user ? "userTitle" : "title"}>Daytona Gang</div>
       {user ? (
         <>
-          <Dashboard user={user} />
+          <Dashboard userFirebase={user} />
         </>
       ) : (
         <SignIn setUser={setUser} user={user} />

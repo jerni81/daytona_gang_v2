@@ -6,20 +6,48 @@ import Home from "./Home";
 import Draft from "./Draft";
 import Schedule from "./Schedule";
 import Nav from "./Nav";
-// import { use } from "../../backend/routes/events";
 
-function Dashboard({ user }) {
-  const [schedule, setSchedule] = useState({});
+function Dashboard({ userFirebase }) {
+  const [schedule, setSchedule] = useState([]);
+  const [user, setUser] = useState({});
 
-  // async function fetchData() {
-  //   const res = await fetch(
-  //     "https://cors-anywhere.herokuapp.com/http://api.sportradar.us/nascar-t3/mc/2020/races/schedule.json?api_key=pkgdvzk982juwdv4x7uuuxhw"
-  //   );
-  //   res
-  //     .json()
-  //     .then((res) => setSchedule(res))
-  //     .catch((err) => console.log(err));
+  async function fetchData() {
+    axios
+      .get("http://localhost:5000/events/")
+      .then(function (res) {
+        setSchedule(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  // async function fetchUser() {
+  //   axios
+  //     .get(`http://localhost:5000/users.uid.${userFirebase.uid}`)
+  //     .then(function (res) {
+  //       console.log(res);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
   // }
+
+  async function postUser() {
+    let user = {
+      uid: userFirebase.uid,
+      name: userFirebase.displayName,
+      brackets: [],
+    };
+    axios
+      .post("http://localhost:5000/users/add", user)
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   // function postSchedule() {
   //   if(schedule.events){
@@ -32,32 +60,35 @@ function Dashboard({ user }) {
   // }
   // }
 
-  // useEffect(() => {
-  //   fetchData();
-  //   console.log('datafetched');
-  // }, []);
+  useEffect(() => {
+    fetchData();
+    console.log("datafetched");
+  }, []);
 
-  if (schedule.events) {
-    console.log(schedule.events.length);
-  }
+  useEffect(() => {
+    postUser();
+    console.log("user posted");
+  }, [userFirebase]);
 
-  if (user) {
+  console.log("fire", typeof userFirebase.uid);
+
+  if (userFirebase) {
     return (
       <div className="Dashboard">
         <Router>
-          Welcome {user.displayName}
+          Welcome {userFirebase.displayName}
           <button onClick={() => firebase.auth().signOut()}>Sign-out</button>
           {/* <button onClick={()=> postSchedule()}>add</button> */}
           <Switch>
             <Route
               exact
               path="/dashboard/"
-              render={(props) => <Home {...props} user={user} />}
+              render={(props) => <Home {...props} user={userFirebase} />}
             />
             <Route
               exact
               path="/dashboard/draft"
-              render={(props) => <Draft {...props} user={user} />}
+              render={(props) => <Draft {...props} user={userFirebase} />}
             />
             <Route
               exact

@@ -4,11 +4,11 @@ import { useHistory } from "react-router-dom";
 function Schedule({ schedule }) {
   let history = useHistory();
 
-  if (schedule.events) {
+  if (schedule) {
     return (
-      <div className="Schedule">
+      <div className="Page">
         {/* <button onClick={() => history.push("/dashboard")}>Dashboard</button> */}
-        {schedule.events.map((event) => (
+        {schedule.map((event) => (
           <div key={event.id}>
             <b>{event.name}</b>
             {event.races.map((race) => (
