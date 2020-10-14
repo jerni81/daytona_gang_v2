@@ -6,7 +6,7 @@ import firebase from "firebase";
 import Nav from "./components/Nav";
 
 function App() {
-  const [user, setUser] = useState("none");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => setUser(user));

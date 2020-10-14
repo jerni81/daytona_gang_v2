@@ -3,7 +3,14 @@ let User = require("../models/user.model");
 
 router.route("/").get((req, res) => {
   User.find()
-    .then((events) => res.json(events))
+    .then((users) => res.json(users))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+router.route("/:uid").get((req, res) => {
+  let id = req.params.uid;
+  User.findOne({ uid: id })
+    .then((user) => res.json(user))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 

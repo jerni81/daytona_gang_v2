@@ -33,20 +33,34 @@ function Dashboard({ userFirebase }) {
   //     });
   // }
 
-  async function postUser() {
+  async function getPostUser() {
+    if(userFirebase !== null){
     let user = {
       uid: userFirebase.uid,
       name: userFirebase.displayName,
       brackets: [],
     };
     axios
-      .post("http://localhost:5000/users/add", user)
-      .then(function (res) {
-        console.log(res);
+      .get(`http://localhost:5000/users/${userFirebase.uid}`)
+      .then((res) => {
+        if (res.data === null) {
+          axios
+            .post("http://localhost:5000/users/add", user)
+            .then(function (res) {
+              console.log("user added", res);
+            })
+            .catch(function (error) {
+              console.log(error);
+              setUser(res.data);
+            });
+        }
+        console.log("user found", res);
+        setUser(res.data);
       })
       .catch(function (error) {
         console.log(error);
       });
+    }
   }
 
   // function postSchedule() {
@@ -62,15 +76,11 @@ function Dashboard({ userFirebase }) {
 
   useEffect(() => {
     fetchData();
-    console.log("datafetched");
   }, []);
 
   useEffect(() => {
-    postUser();
-    console.log("user posted");
+      getPostUser();
   }, [userFirebase]);
-
-  console.log("fire", typeof userFirebase.uid);
 
   if (userFirebase) {
     return (
