@@ -34,7 +34,6 @@ function Dashboard({ userFirebase }) {
   // }
 
   async function getPostUser() {
-    if(userFirebase !== null){
     let user = {
       uid: userFirebase.uid,
       name: userFirebase.displayName,
@@ -60,7 +59,6 @@ function Dashboard({ userFirebase }) {
       .catch(function (error) {
         console.log(error);
       });
-    }
   }
 
   // function postSchedule() {
@@ -79,10 +77,12 @@ function Dashboard({ userFirebase }) {
   }, []);
 
   useEffect(() => {
-      getPostUser();
-  }, [userFirebase]);
+    getPostUser();
+  }, [userFirebase.uid]);
 
-  if (userFirebase) {
+  console.log(user);
+
+  if (userFirebase.uid) {
     return (
       <div className="Dashboard">
         <Router>
