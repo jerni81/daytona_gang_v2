@@ -37,5 +37,27 @@
   color: aliceblue;
   width: 100vw;
   overflow: scroll;
-  height: 72vh;
+  height: 68vh;
+}
+
+h3 {
+  text-align: center;
+}
+
+h4 {
+  margin: 10px;
+}
+
+.draftBoard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.draftCard {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid white;
+  align-items: center;
+  width: 45vw;
 }

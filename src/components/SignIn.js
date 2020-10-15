@@ -13,7 +13,7 @@ const uiConfig = {
 };
 
 function SignIn({ user }) {
-  console.log("sign in user", user);
+  // console.log("sign in user", user);
 
   return (
     <div className="SignIn">

@@ -10,6 +10,7 @@ import Nav from "./Nav";
 function Dashboard({ userFirebase }) {
   const [schedule, setSchedule] = useState([]);
   const [user, setUser] = useState({});
+  const [nextEvent, setNextEvent] = useState({});
 
   async function fetchData() {
     axios
@@ -21,17 +22,6 @@ function Dashboard({ userFirebase }) {
         console.log(error);
       });
   }
-
-  // async function fetchUser() {
-  //   axios
-  //     .get(`http://localhost:5000/users.uid.${userFirebase.uid}`)
-  //     .then(function (res) {
-  //       console.log(res);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }
 
   async function getPostUser() {
     let user = {
@@ -46,19 +36,40 @@ function Dashboard({ userFirebase }) {
           axios
             .post("http://localhost:5000/users/add", user)
             .then(function (res) {
-              console.log("user added", res);
+              // console.log("user added", res);
             })
             .catch(function (error) {
               console.log(error);
               setUser(res.data);
             });
         }
-        console.log("user found", res);
+        // console.log("user found", res);
         setUser(res.data);
       })
       .catch(function (error) {
         console.log(error);
       });
+  }
+
+  function getNextEvent() {
+    var today = new Date();
+    var date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    for (let i = 0; i < schedule.length; i++) {
+      if (schedule[i].start_date >= date) {
+        setNextEvent({
+          name: schedule[i].name,
+          raceName: schedule[i].races[0].name,
+          startTime: schedule[i].races[0].scheduled,
+          raceID: schedule[i].races[0].id,
+        });
+        return;
+      }
+    }
   }
 
   // function postSchedule() {
@@ -80,7 +91,12 @@ function Dashboard({ userFirebase }) {
     getPostUser();
   }, [userFirebase.uid]);
 
-  console.log(user);
+  useEffect(() => {
+    getNextEvent();
+  }, [schedule]);
+
+  console.log(nextEvent);
+  console.log(schedule);
 
   if (userFirebase.uid) {
     return (
@@ -98,7 +114,9 @@ function Dashboard({ userFirebase }) {
             <Route
               exact
               path="/dashboard/draft"
-              render={(props) => <Draft {...props} user={userFirebase} />}
+              render={(props) => (
+                <Draft {...props} user={userFirebase} nextEvent={nextEvent} />
+              )}
             />
             <Route
               exact
