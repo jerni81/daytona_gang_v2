@@ -9,7 +9,7 @@ function Schedule({ schedule }) {
       <div className="Page">
         {/* <button onClick={() => history.push("/dashboard")}>Dashboard</button> */}
         {schedule.map((event) => (
-          <div key={event.id}>
+          <div key={event.id} className="schedule">
             <b>{event.name}</b>
             {event.races.map((race) => (
               <div key={race.id}>
@@ -22,7 +22,6 @@ function Schedule({ schedule }) {
                 })}
               </div>
             ))}
-            <br />
           </div>
         ))}
       </div>

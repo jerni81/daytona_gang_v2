@@ -6,29 +6,78 @@ function Draft({ user, nextEvent }) {
 
   function getLineUp() {
     axios
-      .get(
-        "https://cors-anywhere.herokuapp.com/http://api.sportradar.us/nascar-ot3/mc/races/0e4f8347-c661-4fb7-a1c7-b9726b641e27/starting_grid.json?api_key=pkgdvzk982juwdv4x7uuuxhw"
-      )
+      .get(`http://localhost:5000/startGrid/${nextEvent.raceID}`)
       .then(function (res) {
-        setLineUp(res.data.starting_grid);
+        if (res.data == null) {
+          console.log("running postLineUp");
+          postLineUp();
+        } else {
+          setLineUp(res.data.grid);
+        }
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
+  function postLineUp() {
+    axios
+      .get(
+        `https://cors-anywhere.herokuapp.com/http://api.sportradar.us/nascar-ot3/mc/races/${nextEvent.raceID}/starting_grid.json?api_key=pkgdvzk982juwdv4x7uuuxhw`
+      )
+      .then(function (res) {
+        if (res.data == null) {
+          console.log("Starting Lineup has not been set by NASCAR yet");
+        } else {
+          let grid = {
+            name: nextEvent.raceName,
+            raceID: nextEvent.raceID,
+            grid: res.data.starting_grid,
+          };
+          axios
+            .post("http://localhost:5000/startGrid/add", grid)
+            .then(function (res) {
+              console.log("grid added", grid.grid);
+              setLineUp(grid.grid);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function selectedDriver(id) {
+    var elem = document.getElementById(id);
+    elem.classList.add("selected");
+  }
+
   useEffect(() => {
-    getLineUp();
-  }, []);
+    if (nextEvent.raceID) getLineUp();
+  }, [nextEvent.raceID]);
 
   console.log("draft lineup", lineUp);
+
   if (lineUp) {
     return (
       <div className="Page">
         <div className="draftBoard">
           {lineUp.map((startingSpot) => (
-            <div key={startingSpot.position} className="draftCard">
+            <div
+              key={startingSpot.position}
+              id={startingSpot.position}
+              className="draftCard"
+            >
               <h4>{startingSpot.position})</h4>
+              <button
+                className="cardButton"
+                onClick={() => selectedDriver(startingSpot.position)}
+              >
+                Select
+              </button>
               <div>
                 {startingSpot.driver.full_name} {startingSpot.car.number}
               </div>

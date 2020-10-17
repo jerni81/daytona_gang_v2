@@ -38,6 +38,7 @@
   width: 100vw;
   overflow: scroll;
   height: 68vh;
+  max-width: 900px;
 }
 
 h3 {
@@ -46,6 +47,10 @@ h3 {
 
 h4 {
   margin: 10px;
+}
+
+.schedule {
+  margin: 10px 15px;
 }
 
 .draftBoard {
@@ -57,7 +62,16 @@ h4 {
 .draftCard {
   display: flex;
   flex-direction: row;
-  border: 1px solid white;
+  border: 0.5px solid gray;
   align-items: center;
   width: 45vw;
+  max-width: 380px;
+  margin: 10px;
+}
+.selected {
+  background-color: red;
+}
+
+.cardButton {
+  margin-right: 15px;
 }

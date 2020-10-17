@@ -37,10 +37,10 @@ function Dashboard({ userFirebase }) {
             .post("http://localhost:5000/users/add", user)
             .then(function (res) {
               // console.log("user added", res);
+              setUser(res.data);
             })
             .catch(function (error) {
               console.log(error);
-              setUser(res.data);
             });
         }
         // console.log("user found", res);
@@ -95,8 +95,11 @@ function Dashboard({ userFirebase }) {
     getNextEvent();
   }, [schedule]);
 
-  console.log(nextEvent);
-  console.log(schedule);
+  // console.log(nextEvent);
+  // if(nextEvent.startTime){
+  // console.log(nextEvent.startTime.split("T")[0] == "2020-10-18");
+  // }
+  // console.log(schedule);
 
   if (userFirebase.uid) {
     return (
