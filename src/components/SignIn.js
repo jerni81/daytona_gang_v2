@@ -16,7 +16,7 @@ function SignIn({ user }) {
   // console.log("sign in user", user);
 
   return (
-    <div className="SignIn">
+    <div className="SignIn" data-testid="SignIn">
       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
     </div>
   );

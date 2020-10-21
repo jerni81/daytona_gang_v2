@@ -14,6 +14,15 @@ router.route("/:uid").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+router.route("/:uid").put((req, res) => {
+  let id = req.body.uid;
+  let bracket = req.body.bracket;
+  console.log("params", req.body);
+  User.findOneAndUpdate({ uid: id }, { $push: { brackets: bracket } })
+    .then((bracket) => res.json(bracket))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 router.route("/add").post((req, res) => {
   const user = req.body;
 

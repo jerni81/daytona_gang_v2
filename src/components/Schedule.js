@@ -6,7 +6,7 @@ function Schedule({ schedule }) {
 
   if (schedule) {
     return (
-      <div className="Page">
+      <div className="Page" data-testid="SchedulePage">
         {/* <button onClick={() => history.push("/dashboard")}>Dashboard</button> */}
         {schedule.map((event) => (
           <div key={event.id} className="schedule">
@@ -19,6 +19,8 @@ function Schedule({ schedule }) {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
                 })}
               </div>
             ))}

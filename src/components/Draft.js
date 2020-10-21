@@ -3,6 +3,12 @@ import axios from "axios";
 
 function Draft({ user, nextEvent }) {
   const [lineUp, setLineUp] = useState();
+  const [bracket, setBracket] = useState({
+    uid: null,
+    raceID: null,
+    driver1: null,
+    driver2: null,
+  });
 
   function getLineUp() {
     axios
@@ -26,7 +32,7 @@ function Draft({ user, nextEvent }) {
         `https://cors-anywhere.herokuapp.com/http://api.sportradar.us/nascar-ot3/mc/races/${nextEvent.raceID}/starting_grid.json?api_key=pkgdvzk982juwdv4x7uuuxhw`
       )
       .then(function (res) {
-        if (res.data == null) {
+        if (res.data.starting_grid.length == 0) {
           console.log("Starting Lineup has not been set by NASCAR yet");
         } else {
           let grid = {
@@ -50,16 +56,47 @@ function Draft({ user, nextEvent }) {
       });
   }
 
-  function selectedDriver(id) {
+  function selectedDriver(id, name, number) {
     var elem = document.getElementById(id);
     elem.classList.add("selected");
+    if (bracket.driver1 == null) {
+      setBracket({ ...bracket, driver1: { name: name, number: number } });
+    }
+    if (bracket.driver1 !== null && bracket.driver2 == null) {
+      setBracket({ ...bracket, driver2: { name: name, number: number } });
+    }
+    console.log(bracket);
+  }
+
+  async function postBracket() {
+    let fullBracket = {
+      uid: user.uid,
+      bracket,
+    };
+    console.log("fullbrack", fullBracket);
+    axios
+      .put(`http://localhost:5000/users/${user.uid}`, fullBracket)
+      .then((res) => {
+        console.log("bracket placed", res);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   useEffect(() => {
+    if (bracket.driver2 !== null) {
+      postBracket();
+    }
+  }, [bracket.driver2]);
+
+  useEffect(() => {
     if (nextEvent.raceID) getLineUp();
+    setBracket({ ...bracket, raceID: nextEvent.raceID, uid: user.uid });
   }, [nextEvent.raceID]);
 
-  console.log("draft lineup", lineUp);
+  // console.log("draft lineup", nextEvent);
+  // console.log("Drafts", bracket);
 
   if (lineUp) {
     return (
@@ -74,7 +111,13 @@ function Draft({ user, nextEvent }) {
               <h4>{startingSpot.position})</h4>
               <button
                 className="cardButton"
-                onClick={() => selectedDriver(startingSpot.position)}
+                onClick={() =>
+                  selectedDriver(
+                    startingSpot.position,
+                    startingSpot.driver.full_name,
+                    startingSpot.car.number
+                  )
+                }
               >
                 Select
               </button>
@@ -90,7 +133,7 @@ function Draft({ user, nextEvent }) {
 
   if (nextEvent) {
     return (
-      <div className="Page">
+      <div className="Page" data-testid="NextEvent">
         <h3>
           Next Up <br /> {nextEvent.name} <br /> for the <br />{" "}
           {nextEvent.raceName} <br /> on <br />{" "}
@@ -98,6 +141,8 @@ function Draft({ user, nextEvent }) {
             year: "numeric",
             month: "long",
             day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
           })}
         </h3>
       </div>

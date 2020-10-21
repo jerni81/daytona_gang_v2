@@ -26,24 +26,28 @@ function Nav() {
       }}
       showLabels
       className={classes.root}
+      data-testid="Nav"
     >
       <BottomNavigationAction
         component={Link}
         to="/dashboard/"
         label="Home"
         icon={<HomeIcon />}
+        data-testid="HomeTab"
       />
       <BottomNavigationAction
         component={Link}
         to="/dashboard/draft"
         label="Draft"
         icon={<FlagIcon />}
+        data-testid="DraftTab"
       />
       <BottomNavigationAction
         component={Link}
         to="/dashboard/schedule"
         label="Schedule"
         icon={<CalendarTodayIcon />}
+        data-testid="ScheduleTab"
       />
     </BottomNavigation>
   );

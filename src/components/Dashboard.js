@@ -103,7 +103,7 @@ function Dashboard({ userFirebase }) {
 
   if (userFirebase.uid) {
     return (
-      <div className="Dashboard">
+      <div className="Dashboard" data-testid="Dashboard">
         <Router>
           Welcome {userFirebase.displayName}
           <button onClick={() => firebase.auth().signOut()}>Sign-out</button>
@@ -112,13 +112,13 @@ function Dashboard({ userFirebase }) {
             <Route
               exact
               path="/dashboard/"
-              render={(props) => <Home {...props} user={userFirebase} />}
+              render={(props) => <Home {...props} user={user} />}
             />
             <Route
               exact
               path="/dashboard/draft"
               render={(props) => (
-                <Draft {...props} user={userFirebase} nextEvent={nextEvent} />
+                <Draft {...props} user={user} nextEvent={nextEvent} />
               )}
             />
             <Route
