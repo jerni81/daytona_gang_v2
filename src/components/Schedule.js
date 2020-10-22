@@ -1,13 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 
+//Maps list of scheduled events
 function Schedule({ schedule }) {
-  let history = useHistory();
-
   if (schedule) {
     return (
       <div className="Page" data-testid="SchedulePage">
-        {/* <button onClick={() => history.push("/dashboard")}>Dashboard</button> */}
         {schedule.map((event) => (
           <div key={event.id} className="schedule">
             <b>{event.name}</b>

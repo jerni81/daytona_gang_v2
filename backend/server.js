@@ -39,11 +39,13 @@ connection.once("open", () => {
 const eventsRouter = require("./routes/events");
 const usersRouter = require("./routes/users");
 const startGridRouter = require("./routes/startGrid");
+const poolsRouter = require("./routes/pools");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/events", eventsRouter);
 app.use("/users", usersRouter);
 app.use("/startGrid", startGridRouter);
+app.use("/pools", poolsRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

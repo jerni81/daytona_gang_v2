@@ -12,7 +12,8 @@ function Dashboard({ userFirebase }) {
   const [user, setUser] = useState({});
   const [nextEvent, setNextEvent] = useState({});
 
-  async function fetchData() {
+  // calls to MongoDB back end to retrieve list of events and sets schedule
+  async function getSchedule() {
     axios
       .get("http://localhost:5000/events/")
       .then(function (res) {
@@ -23,34 +24,8 @@ function Dashboard({ userFirebase }) {
       });
   }
 
-  async function getPostUser() {
-    let user = {
-      uid: userFirebase.uid,
-      name: userFirebase.displayName,
-      brackets: [],
-    };
-    axios
-      .get(`http://localhost:5000/users/${userFirebase.uid}`)
-      .then((res) => {
-        if (res.data === null) {
-          axios
-            .post("http://localhost:5000/users/add", user)
-            .then(function (res) {
-              // console.log("user added", res);
-              setUser(res.data);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        }
-        // console.log("user found", res);
-        setUser(res.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
+  // seaches through schedule by date and finds which event will occur next
+  // sets state to have neccesary info about the next event
   function getNextEvent() {
     var today = new Date();
     var date =
@@ -72,19 +47,39 @@ function Dashboard({ userFirebase }) {
     }
   }
 
-  // function postSchedule() {
-  //   if(schedule.events){
-  //   // for(let i = 0; i < schedule.events.length; i++){
-  //     let events = schedule.events
-  //     axios.post('http://localhost:5000/events', events)
-  //     .then(res => console.log("from dash", res.data))
-  //     .catch((err) => console.log(err));
-  //   // }
-  // }
-  // }
+  // Assumes user exist and gets the user object from MongoDB
+  // If no user is found then posts a new user object to Mongo
+  // sets state to user object
+  async function getPostUser() {
+    axios
+      .get(`http://localhost:5000/users/${userFirebase.uid}`)
+      .then((res) => {
+        if (res.data === null) {
+          let user = {
+            uid: userFirebase.uid,
+            name: userFirebase.displayName,
+            brackets: [],
+          };
+          axios
+            .post("http://localhost:5000/users/add", user)
+            .then(function (res) {
+              // console.log("user added", res);
+              setUser(res.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+        // console.log("user found", res);
+        setUser(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   useEffect(() => {
-    fetchData();
+    getSchedule();
   }, []);
 
   useEffect(() => {

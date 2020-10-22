@@ -12,9 +12,7 @@ const uiConfig = {
   signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID],
 };
 
-function SignIn({ user }) {
-  // console.log("sign in user", user);
-
+function SignIn() {
   return (
     <div className="SignIn" data-testid="SignIn">
       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />

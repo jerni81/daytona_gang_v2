@@ -5,11 +5,14 @@ function Draft({ user, nextEvent }) {
   const [lineUp, setLineUp] = useState();
   const [bracket, setBracket] = useState({
     uid: null,
+    raceName: null,
     raceID: null,
     driver1: null,
     driver2: null,
   });
 
+  // Assumes starting grid has already been set and posted to MongoDB
+  // If no starting grid is found then calls function to post a grid to MongoDB
   function getLineUp() {
     axios
       .get(`http://localhost:5000/startGrid/${nextEvent.raceID}`)
@@ -26,6 +29,9 @@ function Draft({ user, nextEvent }) {
       });
   }
 
+  // Called in getLineUp if no data is returned from call
+  // Gets data from sportradar.io trims it, and post a grid to MongoDB
+  // Sets state for lineUp
   function postLineUp() {
     axios
       .get(
@@ -56,6 +62,8 @@ function Draft({ user, nextEvent }) {
       });
   }
 
+  // onClick that sets drivers selectd to individuals bracket in state
+  // and changes css property to show driver has already been picked
   function selectedDriver(id, name, number) {
     var elem = document.getElementById(id);
     elem.classList.add("selected");
@@ -65,15 +73,46 @@ function Draft({ user, nextEvent }) {
     if (bracket.driver1 !== null && bracket.driver2 == null) {
       setBracket({ ...bracket, driver2: { name: name, number: number } });
     }
-    console.log(bracket);
+    // console.log(bracket);
   }
 
+  // Assumes pool already exist in MongoDB for the next event
+  // If pool does not exist creates a pool for users to have their
+  // indivdual brackets added to
+  async function createPool() {
+    axios
+      .get(`http://localhost:5000/pools/${nextEvent.raceID}`)
+      .then((res) => {
+        // console.log("inside create pool", res);
+        if (res.data == null) {
+          let pool = {
+            raceName: nextEvent.raceName,
+            raceID: nextEvent.raceID,
+            brackets: [],
+          };
+          axios
+            .post("http://localhost:5000/pools/add", pool)
+            .then(function (res) {
+              console.log("pool added", pool);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  // Post individuals bracket to their own user profile in MongoDB
+  // Waits for driver2 to be populated in state then post whole bracket object
   async function postBracket() {
     let fullBracket = {
       uid: user.uid,
       bracket,
     };
-    console.log("fullbrack", fullBracket);
+    // console.log("fullbrack", fullBracket);
     axios
       .put(`http://localhost:5000/users/${user.uid}`, fullBracket)
       .then((res) => {
@@ -84,15 +123,42 @@ function Draft({ user, nextEvent }) {
       });
   }
 
+  // Post indivdual users picks to pool in MongoDB
+  async function postToPool() {
+    let userPicks = {
+      uid: user.uid,
+      userName: user.userName,
+      driver1: bracket.driver1,
+      driver2: bracket.driver2,
+    };
+    console.log("userPicks", userPicks);
+    axios
+      .put(`http://localhost:5000/pools/${nextEvent.raceID}`, userPicks)
+      .then((res) => {
+        console.log("picks placed to pool", res.data.brackets);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   useEffect(() => {
     if (bracket.driver2 !== null) {
       postBracket();
+      postToPool();
     }
   }, [bracket.driver2]);
 
   useEffect(() => {
     if (nextEvent.raceID) getLineUp();
-    setBracket({ ...bracket, raceID: nextEvent.raceID, uid: user.uid });
+    createPool();
+    console.log("calling create pool");
+    setBracket({
+      ...bracket,
+      raceID: nextEvent.raceID,
+      raceName: nextEvent.raceName,
+      uid: user.uid,
+    });
   }, [nextEvent.raceID]);
 
   // console.log("draft lineup", nextEvent);
