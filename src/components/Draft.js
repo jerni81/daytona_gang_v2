@@ -67,6 +67,9 @@ function Draft({ user, nextEvent }) {
   function selectedDriver(id, name, number) {
     var elem = document.getElementById(id);
     elem.classList.add("selected");
+    var button = document.getElementById(`button${id}`);
+    console.log(button);
+    button.disabled = true;
     if (bracket.driver1 == null) {
       setBracket({ ...bracket, driver1: { name: name, number: number } });
     }
@@ -127,11 +130,11 @@ function Draft({ user, nextEvent }) {
   async function postToPool() {
     let userPicks = {
       uid: user.uid,
-      userName: user.userName,
+      userName: user.name,
       driver1: bracket.driver1,
       driver2: bracket.driver2,
     };
-    console.log("userPicks", userPicks);
+    // console.log("userPicks", userPicks);
     axios
       .put(`http://localhost:5000/pools/${nextEvent.raceID}`, userPicks)
       .then((res) => {
@@ -161,6 +164,7 @@ function Draft({ user, nextEvent }) {
     });
   }, [nextEvent.raceID]);
 
+  // console.log(user);
   // console.log("draft lineup", nextEvent);
   // console.log("Drafts", bracket);
 
@@ -176,6 +180,7 @@ function Draft({ user, nextEvent }) {
             >
               <h4>{startingSpot.position})</h4>
               <button
+                id={`button${startingSpot.position}`}
                 className="cardButton"
                 onClick={() =>
                   selectedDriver(

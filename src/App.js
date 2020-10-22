@@ -13,8 +13,8 @@ function App() {
 
   return (
     <div className="App">
-      <div id={user ? "userTitle" : "title"}>Daytona Gang</div>
-      {user ? (
+      <div id={userFirebase ? "userTitle" : "title"}>Daytona Gang</div>
+      {userFirebase ? (
         <>
           <Dashboard userFirebase={userFirebase} />
         </>
