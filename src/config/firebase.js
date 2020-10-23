@@ -1,17 +1,19 @@
 import app from "firebase/app";
 import "firebase/auth";
 import firebase from "firebase";
+require('dotenv').config()
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCH2vWg_fwzwNNjBePmJyaLatopJu5rzCU",
-  authDomain: "daytona-gang-v2.firebaseapp.com",
-  databaseURL: "https://daytona-gang-v2.firebaseio.com",
-  projectId: "daytona-gang-v2",
-  storageBucket: "daytona-gang-v2.appspot.com",
-  messagingSenderId: "270690783616",
-  appId: "1:270690783616:web:de4d682dd41c4f181c3165",
-  measurementId: "G-VPZY3LSN89",
+  apiKey: process.env.KEY,
+  authDomain: process.env.AUTHDOMAIN,
+  databaseURL: process.env.DATABASEURL,
+  projectId: process.env.PROJECTID,
+  storageBucket: process.env.STORAGEBUCKET, 
+  messagingSenderId: process.env.MESSAGINGIDSENDER,
+  appId: process.env.APPID,
+  measurementId: process.env.MEASURMENTID,
 };
+
 
 class Firebase {
   constructor() {
